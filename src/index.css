@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  padding-top: 72px;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+.nav-logo {
+  max-height: 70px;
+  max-width: 70px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.barra {
+  background-color: rgb(0 50 108); 
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 5px 24px;
+  z-index: 1000;
+  display: flex;
+}
+
+.botones {
+  display: flex;
+  flex-direction: row;       /* Horizontal */
+  justify-content: right;   /* Centra horizontalmente */
+  align-items: center;       /* Centra verticalmente */
+  gap: 20px;                 /* Espacio entre botones */
+  margin-right: 20px;            /* Pegado a la izquierda */
+  padding-right: 24px;        /* Espaciado si quieres que no esté 100% al borde */
+  width: 100%;
+
+}
+.hero {
+  position: relative;
+  width: 100%;
+  height: 500px;      /* Ajusta la altura que necesites */
+  overflow: hidden;   /* Para que no desborde */
+  display: flex;
+
+}
+
+/* 2. Imagen al fondo */
+.hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 3. Capa overlay con texto */
+.hero__overlay {
+  position: absolute;      /* Se coloca respecto al .hero */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);  /* Oscurece fondo */
+  display: flex;           /* Flex para centrar texto */
+  align-items: center;     /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  z-index: 10;             /* Asegura que esté por encima de la imagen */
+}
+
+/* 4. Estilo del título */
+.hero__title {
+  color: #fff;
+  font-size: 2.5rem;   /* 40px */
+  text-align: center;
+  margin: 0;
+  padding: 0 1rem;     /* Espacio lateral en móviles */
+}
+.info-map-section {
+  display: flex;
+  flex-direction: column;       /* Columna en móvil */
+  gap: 2rem;
+  padding: 2rem 1rem;
+  background-color: #f5f5f5;
+}
+
+/* Pasa a fila en pantallas ≥720px y centra verticalmente */
+@media (min-width: 720px) {
+  .info-map-section {
+    flex-direction: row;
+    align-items: center;        /* CENTRA VERTICALMENTE */
+    justify-content: space-between;
+  }
+}
+
+/* Info ocupa su espacio natural */
+.info-section {
+  flex: 1 1 40%;                /* Ocupa aprox 40% */
+}
+
+/* Mapa ocupa el resto y centrado */
+.map-section {
+  height: 55%;                /* altura fija */
+  width: 55%;
+  min-height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Ajuste del iframe */
+.map-section iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Móvil: hacer el map un poco más alto */
+@media (max-width: 720px) {
+  .map-section {
+    height: 250px;
+  }
+}
+.info-map-section {
+  background-color: #2a2c33; /* Fondo blanco para que el texto se vea */
+  color: rgb(255, 255, 255);            /* Texto oscuro */
+  width: 100%;
+}
+.info-map-section h2{
+  color: #9e9fa5;
+}
+.contenedor{
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+.carousel button {
+  font-size: 1.5rem;
+}
+
+.shoe-carousel img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin: 60px;
+}
+.shoe-carousel{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 50px;
+  height: 500px;
+
+}
+.shoe-carousel-track{
+ display: flex;
+  transition: transform 0.5s ease;
+}
+.separator {
+  border-top: 3px solid rgba(184, 132, 132, 0.15);
+  width: 100%;
+  margin: 10px;
+}
+.login-form {
+  max-width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
