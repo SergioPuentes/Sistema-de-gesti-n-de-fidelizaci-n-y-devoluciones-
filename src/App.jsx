@@ -3,6 +3,12 @@ import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import CrearCliente from "./components/CrearCliente";
+import RealizarCompra from "./components/RealizarCompra";
+import VerRecibosCliente from "./components/VerRecibosCliente";
+
+
+
 
 export default function App() {
   return (
@@ -12,6 +18,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/realizar-compra" element={<RealizarCompra />} />
+          <Route path="/crear-cliente" element={<CrearCliente />} />
+          <Route path="/recibos" element={<VerRecibosCliente />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

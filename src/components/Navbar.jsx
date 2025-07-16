@@ -1,45 +1,77 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const { userType, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <nav className="barra">
       <div className="flex items-center space-x-4">
         <img src={logo} alt="Spring Step" className="nav-logo" />
       </div>
+
       <div className="botones">
-        <Link to="/" className="text-white">Inicio</Link>
-        {(!userType || userType === "cliente") && (
-          <a href="#" className="text-white">Contacto</a>
-        )}
-        {!userType && <Link to="/login" className="text-white">Iniciar sesión</Link>}
+        <Link to="/" className="text-white font-semibold hover:text-gray-200">
+          Home
+        </Link>
+
         {userType === "cliente" && (
           <>
-            <a href="#" className="text-white">Productos</a>
-            <a href="#" className="text-white">Reseñas</a>
-            <a href="#" className="text-white">Devoluciones</a>
-            <button onClick={logout} className="text-white">Cerrar sesión</button>
+            <Link to="/recibos" className="text-white font-semibold hover:text-gray-200">
+              Recibos
+            </Link>
+            <Link to="/devoluciones" className="text-white font-semibold hover:text-gray-200">
+              Devoluciones
+            </Link>
+            <Link to="/calificaciones" className="text-white font-semibold hover:text-gray-200">
+              Calificaciones
+            </Link>
           </>
         )}
+
         {userType === "cajero" && (
           <>
-            <a href="#" className="text-white">Crear Cliente</a>
-            <a href="#" className="text-white">Mis Ventas</a>
-            <button onClick={logout} className="text-white">Cerrar sesión</button>
+            <Link to="/crear-cliente" className="text-white font-semibold hover:text-gray-200">
+              Crear Cliente
+            </Link>
+            <Link to="/realizar-compra" className="text-white font-semibold hover:text-gray-200">
+              Realizar Compra
+            </Link>
+            <Link to="/mis-ventas" className="text-white font-semibold hover:text-gray-200">
+              Mis Ventas
+            </Link>
           </>
         )}
+
         {userType === "admin" && (
           <>
-            <a href="#" className="text-white">Crear Cliente</a>
-            <a href="#" className="text-white">Crear Cajero</a>
-            <a href="#" className="text-white">Gestión</a>
-            <a href="#" className="text-white">Ventas</a>
-            <a href="#" className="text-white">Devoluciones</a>
-            <button onClick={logout} className="text-white">Cerrar sesión</button>
+            <Link to="/gestionar-usuarios" className="text-white font-semibold hover:text-gray-200">
+              Gestionar Usuarios
+            </Link>
+            <Link to="/ventas-totales" className="text-white font-semibold hover:text-gray-200">
+              Ventas Totales
+            </Link>
+            <Link to="/devoluciones-admin" className="text-white font-semibold hover:text-gray-200">
+              Devoluciones
+            </Link>
           </>
+        )}
+
+        {!userType ? (
+          <Link to="/login" className="text-white font-semibold hover:text-gray-200">
+            Iniciar Sesión
+          </Link>
+        ) : (
+          <button onClick={handleLogout} className="text-white font-semibold hover:text-gray-200">
+            Cerrar Sesión
+          </button>
         )}
       </div>
     </nav>
