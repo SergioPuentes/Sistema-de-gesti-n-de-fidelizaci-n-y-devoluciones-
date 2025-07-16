@@ -23,11 +23,6 @@ export function AuthProvider({ children }) {
     return localUsers ? JSON.parse(localUsers) : usuariosBase;
   });
 
-  const [ventas, setVentas] = useState(() => {
-    const localVentas = localStorage.getItem("ventas");
-    return localVentas ? JSON.parse(localVentas) : [];
-  });
-
   const [usuarioActual, setUsuarioActual] = useState(() => {
     const localUsuario = localStorage.getItem("usuarioActual");
     return localUsuario ? JSON.parse(localUsuario) : null;
@@ -36,10 +31,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
-
-  useEffect(() => {
-    localStorage.setItem("ventas", JSON.stringify(ventas));
-  }, [ventas]);
 
   useEffect(() => {
     if (usuarioActual) {
@@ -75,23 +66,40 @@ export function AuthProvider({ children }) {
   }
 
   function registrarVenta(venta) {
-    if (!validarClienteExiste(venta.clienteId)) return false;
-    setVentas((prev) => {
-      const nuevasVentas = [...prev, venta];
-      localStorage.setItem("ventas", JSON.stringify(nuevasVentas));
-      return nuevasVentas;
-    });
-    return true;
+    const numeroFactura = Date.now();
+    const ventaConFecha = { ...venta, fecha: new Date().toLocaleString(), numeroFactura };
+    const ventasGuardadas = JSON.parse(localStorage.getItem("ventas")) || [];
+    ventasGuardadas.push(ventaConFecha);
+    localStorage.setItem("ventas", JSON.stringify(ventasGuardadas));
+    return numeroFactura;
   }
 
   function obtenerRecibosCliente(idCliente) {
-    const localVentas = JSON.parse(localStorage.getItem("ventas")) || ventas;
-    return localVentas.filter((v) => v.clienteId === idCliente);
+    const ventasGuardadas = JSON.parse(localStorage.getItem("ventas")) || [];
+    return ventasGuardadas.filter((v) => v.clienteId === idCliente);
   }
 
   function obtenerTodasLasVentas() {
-    const localVentas = JSON.parse(localStorage.getItem("ventas")) || ventas;
-    return localVentas;
+    const ventasGuardadas = JSON.parse(localStorage.getItem("ventas")) || [];
+    return ventasGuardadas;
+  }
+
+  function registrarDevolucion(devolucion) {
+    const devolucionesGuardadas = JSON.parse(localStorage.getItem("devoluciones")) || [];
+    devolucionesGuardadas.push({ ...devolucion, estado: "pendiente", fecha: new Date().toLocaleString() });
+    localStorage.setItem("devoluciones", JSON.stringify(devolucionesGuardadas));
+  }
+
+  function obtenerDevoluciones() {
+    return JSON.parse(localStorage.getItem("devoluciones")) || [];
+  }
+
+  function actualizarEstadoDevolucion(index, estado) {
+    const devoluciones = JSON.parse(localStorage.getItem("devoluciones")) || [];
+    if (devoluciones[index]) {
+      devoluciones[index].estado = estado;
+      localStorage.setItem("devoluciones", JSON.stringify(devoluciones));
+    }
   }
 
   return (
@@ -107,6 +115,9 @@ export function AuthProvider({ children }) {
         obtenerTodasLasVentas,
         validarClienteExiste,
         productosBase,
+        registrarDevolucion,
+        obtenerDevoluciones,
+        actualizarEstadoDevolucion,
       }}
     >
       {children}
