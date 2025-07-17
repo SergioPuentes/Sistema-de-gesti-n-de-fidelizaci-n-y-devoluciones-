@@ -1124,3 +1124,6 @@ body {
   border: 1.5px solid #cbd5e1;  /* Borde más notorio */
   color: #111827;               /* Texto negro, no gris claro */
 }
+.p-4{
+  margin-top: 5rem;
+}
