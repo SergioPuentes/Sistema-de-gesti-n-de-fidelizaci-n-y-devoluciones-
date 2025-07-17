@@ -4,7 +4,7 @@ import InfoMapSection from "../components/InfoMapSection";
 
 export default function Home() {
   return (
-    <div className="contenedor">
+    <div className="contenedor1">
       <Hero />
       <div className="separator"></div>
       <ShoeCarousel />

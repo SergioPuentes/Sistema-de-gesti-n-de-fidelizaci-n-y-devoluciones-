@@ -1,9 +1,22 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import zapato1 from "../assets/zapatos1.png";
-import zapato2 from "../assets/zapatos2.png";
-import zapato3 from "../assets/zapatos3.png";
-import zapato4 from "../assets/zapatos4.png";
-import zapato5 from "../assets/zapatos5.png";
+import producto1 from "../assets/producto1.png";
+import producto2 from "../assets/producto2.png";
+import producto3 from "../assets/producto3.png";
+import producto4 from "../assets/producto4.png";
+import producto5 from "../assets/producto5.png";
+import producto6 from "../assets/producto6.png";
+import producto7 from "../assets/producto7.png";
+import producto8 from "../assets/producto8.png";
+import producto9 from "../assets/producto9.png";
+import producto10 from "../assets/producto10.png";
+import producto11 from "../assets/producto11.png";
+import producto12 from "../assets/producto12.png";
+import producto13 from "../assets/producto13.png";
+import producto14 from "../assets/producto14.png";
+import producto15 from "../assets/producto15.png";
+
+
+
 
 const AuthContext = createContext();
 
@@ -15,11 +28,21 @@ const usuariosBase = [
 ];
 
 const inventarioBase = [
-  { id: "1", nombre: "Zapato Casual", descripcion: "Zapato para uso diario", precio: 100, imagen: zapato1, stock: 50 },
-  { id: "2", nombre: "Zapato Deportivo", descripcion: "Ideal para correr", precio: 150, imagen: zapato2, stock: 30 },
-  { id: "3", nombre: "Botas", descripcion: "Botas impermeables", precio: 200, imagen: zapato3, stock: 20 },
-  { id: "4", nombre: "Sandalias", descripcion: "Para clima cálido", precio: 50, imagen: zapato4, stock: 40 },
-  { id: "5", nombre: "Zapato Formal", descripcion: "Para eventos especiales", precio: 180, imagen: zapato5, stock: 15 },
+  { id: "1", nombre: "TENIS DEPORTIVOS HOMBRE MARCA XTEP COLOR AZUL", descripcion: "Zapato para uso diario", precio: 129.900, imagen: producto1, stock: 50 },
+  { id: "2", nombre: "BOTAS OUTDOOR HOMBRE MARCA BREAKER COLOR CAFE", descripcion: "Ideal para correr", precio: 199.900, imagen: producto2, stock: 30 },
+  { id: "3", nombre: "TENIS CASUAL HOMBRE MARCA BREAKER COLOR CAFÉ", descripcion: "Botas impermeables", precio: 79.900, imagen: producto3, stock: 70 },
+  { id: "4", nombre: "Sandalias Para Hombre Marrón Breaker", descripcion: "Para clima cálido", precio: 149.900, imagen: producto4, stock: 40 },
+  { id: "5", nombre: "TENIS DEPORTIVOS HOMBRE MARCA XTEP COLOR NEGRO", descripcion: "Para eventos especiales", precio: 139.900, imagen: producto5, stock: 55 },
+  { id: "6", nombre: "SANDALIAS MUJER MARCA VIA SPRING COLOR AZUL", descripcion: "Para eventos especiales", precio: 54.900, imagen: producto6, stock: 40 },
+  { id: "7", nombre: "TENIS DEPORTIVOS MUJER XTEP FUCSIA", descripcion: "Para eventos especiales", precio: 59.900, imagen: producto7, stock: 100 },
+  { id: "8", nombre: "MUJER BOTIN MARCA VIA SPRING COLOR TAUPE", descripcion: "Para eventos especiales", precio: 99.900, imagen: producto8, stock: 60 },
+  { id: "9", nombre: "TACONES MUJER MARCA BEIRA RIO COLOR FUCSIA", descripcion: "Para eventos especiales", precio: 139.900, imagen: producto9, stock: 27 },
+  { id: "10", nombre: "TACONES MUJER MARCA BEIRA RIO COLOR NEGRO", descripcion: "Para eventos especiales", precio: 149.900, imagen: producto10, stock: 15 },
+  { id: "11", nombre: "TENIS ESCOLARES MARCA XTEP COLOR BLANCO", descripcion: "Para eventos especiales", precio: 49.900, imagen: producto11, stock: 50 },
+  { id: "12", nombre: "BOTA IMPERMEABLE TRANSPARENTE MUJER MAR&COR", descripcion: "Para eventos especiales", precio: 25.000, imagen: producto12, stock: 150 },
+  { id: "13", nombre: "TENIS ESCOLARES MARCA CLASSTEP COLOR BLANCO", descripcion: "Para eventos especiales", precio: 139.900, imagen: producto13, stock: 60 },
+  { id: "14", nombre: "TENIS DEPORTIVOS NIÑA MARCA KIDY COLOR ROSA", descripcion: "Para eventos especiales", precio: 35.000, imagen: producto14, stock: 30 },
+  { id: "15", nombre: "TENIS INFANTIL NIÑA NEGRO KIDY", descripcion: "Para eventos especiales", precio: 35.00, imagen: producto15, stock: 15 },
 ];
 
 // Función para generar un ID único para la factura
