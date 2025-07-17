@@ -9,8 +9,10 @@ import VerRecibosCliente from "./components/VerRecibosCliente";
 import SolicitudDevolucion from "./components/SolicitudDevolucion";
 import PanelDevoluciones from "./components/PanelDevoluciones";
 import VerVentas from "./components/VerVentas"
-import CalificarProductoCliente from "./components/CalificarProductoCliente";
+import CalificarProductosCliente from "./components/CalificarProductosCliente";
 import EstadisticasProductosAdmin from "./components/EstadisticasProductosAdmin";
+import CalificarServicioCliente from "./components/CalificarServicioCliente";
+import EstadisticasServicioAdmin from "./components/EstadisticasServicioAdmin";
 
 
 
@@ -30,8 +32,10 @@ export default function App() {
           <Route path="/devoluciones" element={<SolicitudDevolucion />} />
           <Route path="/devoluciones-admin" element={<PanelDevoluciones />} />
           <Route path="/ventas-totales" element={<VerVentas />} />
-          <Route path="/calificar-producto" element={<CalificarProductoCliente />} />
+          <Route path="/calificar-producto" element={<CalificarProductosCliente />} />
           <Route path="/estadisticas-productos" element={<EstadisticasProductosAdmin />} />
+          <Route path="/calificar-servicio" element={<CalificarServicioCliente />} />
+          <Route path="/estadisticas-servicio" element={<EstadisticasServicioAdmin />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -33,6 +33,9 @@ export default function Navbar() {
             <Link to="/calificar-producto" className="text-white font-semibold hover:text-gray-200">
               Calificar Producto
             </Link>
+            <Link to="/calificar-servicio" className="text-white font-semibold hover:text-gray-200">
+              Calificar Servicio
+            </Link>
           </>
         )}
 
@@ -44,24 +47,21 @@ export default function Navbar() {
             <Link to="/realizar-compra" className="text-white font-semibold hover:text-gray-200">
               Realizar Compra
             </Link>
-            <Link to="/mis-ventas" className="text-white font-semibold hover:text-gray-200">
-              Mis Ventas
-            </Link>
           </>
         )}
 
         {userType === "admin" && (
           <>
-            <Link to="/estadisticas-productos" className="text-white font-semibold hover:text-gray-200">
-              Productos
-            </Link>
             <Link to="/ventas-totales" className="text-white font-semibold hover:text-gray-200">
               Ventas Totales
             </Link>
             <Link to="/devoluciones-admin" className="text-white font-semibold hover:text-gray-200">
               Devoluciones
             </Link>
-            <Link to="/calificacion-sede" className="text-white font-semibold hover:text-gray-200">
+            <Link to="/estadisticas-productos" className="text-white font-semibold hover:text-gray-200">
+              Productos
+            </Link>
+            <Link to="/estadisticas-servicio" className="text-white font-semibold hover:text-gray-200">
               Calificaciones
             </Link>
           </>
