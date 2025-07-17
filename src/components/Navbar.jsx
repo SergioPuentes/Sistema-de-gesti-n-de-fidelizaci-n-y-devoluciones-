@@ -30,8 +30,8 @@ export default function Navbar() {
             <Link to="/devoluciones" className="text-white font-semibold hover:text-gray-200">
               Devoluciones
             </Link>
-            <Link to="/calificaciones" className="text-white font-semibold hover:text-gray-200">
-              Calificaciones
+            <Link to="/calificar-producto" className="text-white font-semibold hover:text-gray-200">
+              Calificar Producto
             </Link>
           </>
         )}
@@ -52,14 +52,17 @@ export default function Navbar() {
 
         {userType === "admin" && (
           <>
-            <Link to="/gestionar-usuarios" className="text-white font-semibold hover:text-gray-200">
-              Gestionar Usuarios
+            <Link to="/estadisticas-productos" className="text-white font-semibold hover:text-gray-200">
+              Productos
             </Link>
             <Link to="/ventas-totales" className="text-white font-semibold hover:text-gray-200">
               Ventas Totales
             </Link>
             <Link to="/devoluciones-admin" className="text-white font-semibold hover:text-gray-200">
               Devoluciones
+            </Link>
+            <Link to="/calificacion-sede" className="text-white font-semibold hover:text-gray-200">
+              Calificaciones
             </Link>
           </>
         )}

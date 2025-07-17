@@ -36,36 +36,40 @@ export default function RealizarCompra() {
   };
 
   const finalizarCompra = () => {
-    setMensaje("");
-    setError("");
-    if (!validarClienteExiste(clienteId)) {
-      setError("ID de cliente no existe.");
-      return;
-    }
-    if (carrito.length === 0) {
-      setError("No hay productos en el carrito.");
-      return;
-    }
-    let subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-    const descuentoBruto = subtotal * 0.08;
-    const maxDescuento = subtotal * 0.5;
-    const descuento = Math.min(descuentoBruto, maxDescuento);
-    const totalFinal = subtotal - descuento;
+  setMensaje("");
+  setError("");
+  if (!validarClienteExiste(clienteId)) {
+    setError("ID de cliente no existe.");
+    return;
+  }
+  if (carrito.length === 0) {
+    setError("No hay productos en el carrito.");
+    return;
+  }
+  let subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  const descuentoBruto = subtotal * 0.08;
+  const maxDescuento = subtotal * 0.5;
+  const descuento = Math.min(descuentoBruto, maxDescuento);
+  const totalFinal = subtotal - descuento;
 
-    const venta = {
-      clienteId,
-      productos: carrito,
-      subtotal,
-      descuento,
-      totalFinal,
-      fecha: new Date().toLocaleString(),
-    };
-
-    registrarVenta(venta);
-    setMensaje(`Venta registrada. Total: $${totalFinal.toFixed(2)} (Descuento aplicado: $${descuento.toFixed(2)})`);
-    setCarrito([]);
-    setClienteId("");
+  const venta = {
+    clienteId,
+    productos: carrito.map(item => ({
+      idProducto: item.id,
+      cantidad: item.cantidad
+    })),
+    subtotal,
+    descuento,
+    totalFinal,
+    fecha: new Date().toLocaleString(),
   };
+
+  registrarVenta(venta);
+  setMensaje(`Venta registrada. Total: $${totalFinal.toFixed(2)} (Descuento aplicado: $${descuento.toFixed(2)})`);
+  setCarrito([]);
+  setClienteId("");
+};
+
 
   return (
     <div className="realizar-compra p-4 max-w-6xl mx-auto">

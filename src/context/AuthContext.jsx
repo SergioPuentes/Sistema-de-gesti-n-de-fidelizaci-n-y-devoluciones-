@@ -13,7 +13,7 @@ const productosBase = Array.from({ length: 10 }, (_, i) => ({
   id: (i + 1).toString(),
   nombre: `Producto ${i + 1}`,
   descripcion: `Descripción del producto ${i + 1}`,
-  precio: 50 + (i * 10),
+  precio: 50 + i * 10,
   imagen: `/producto${i + 1}.png`,
 }));
 
@@ -102,6 +102,56 @@ export function AuthProvider({ children }) {
     }
   }
 
+  function registrarCalificacionProducto(idCliente, idProducto, estrellas) {
+    const calificaciones = JSON.parse(localStorage.getItem("calificacionesProducto")) || [];
+    calificaciones.push({ idCliente, idProducto, estrellas });
+    localStorage.setItem("calificacionesProducto", JSON.stringify(calificaciones));
+  }
+
+  function obtenerProductosParaCalificar(idCliente) {
+    const recibos = obtenerRecibosCliente(idCliente);
+    const calificaciones = JSON.parse(localStorage.getItem("calificacionesProducto")) || [];
+
+    const productosComprados = new Set();
+    recibos.forEach(r => {
+      r.productos.forEach(p => productosComprados.add(p.idProducto));
+    });
+
+    const productosCalificados = new Set(
+      calificaciones.filter(c => c.idCliente === idCliente).map(c => c.idProducto)
+    );
+
+    const pendientes = [...productosComprados].filter(id => !productosCalificados.has(id));
+    return productosBase.filter(p => pendientes.includes(p.id));
+  }
+
+  function obtenerEstadisticasProductos() {
+    const calificaciones = JSON.parse(localStorage.getItem("calificacionesProducto")) || [];
+    const conteo = {};
+
+    calificaciones.forEach(({ idProducto, estrellas }) => {
+      if (!conteo[idProducto]) conteo[idProducto] = { total: 0, cantidad: 0 };
+      conteo[idProducto].total += estrellas;
+      conteo[idProducto].cantidad += 1;
+    });
+
+    return productosBase.map((producto) => ({
+      ...producto,
+      promedio: conteo[producto.id] ? (conteo[producto.id].total / conteo[producto.id].cantidad).toFixed(2) : "Sin calificaciones",
+      cantidad: conteo[producto.id]?.cantidad || 0,
+    }));
+  }
+
+  function registrarCalificacionServicio(idCliente, respuestas) {
+    const servicio = JSON.parse(localStorage.getItem("calificacionesServicio")) || [];
+    servicio.push({ idCliente, respuestas });
+    localStorage.setItem("calificacionesServicio", JSON.stringify(servicio));
+  }
+
+  function obtenerEstadisticasServicio() {
+    return JSON.parse(localStorage.getItem("calificacionesServicio")) || [];
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -118,6 +168,11 @@ export function AuthProvider({ children }) {
         registrarDevolucion,
         obtenerDevoluciones,
         actualizarEstadoDevolucion,
+        registrarCalificacionProducto,
+        obtenerProductosParaCalificar,
+        obtenerEstadisticasProductos,
+        registrarCalificacionServicio,
+        obtenerEstadisticasServicio,
       }}
     >
       {children}

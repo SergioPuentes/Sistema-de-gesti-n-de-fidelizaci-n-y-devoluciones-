@@ -8,6 +8,10 @@ import RealizarCompra from "./components/RealizarCompra";
 import VerRecibosCliente from "./components/VerRecibosCliente";
 import SolicitudDevolucion from "./components/SolicitudDevolucion";
 import PanelDevoluciones from "./components/PanelDevoluciones";
+import VerVentas from "./components/VerVentas"
+import CalificarProductoCliente from "./components/CalificarProductoCliente";
+import EstadisticasProductosAdmin from "./components/EstadisticasProductosAdmin";
+
 
 
 
@@ -25,6 +29,9 @@ export default function App() {
           <Route path="/recibos" element={<VerRecibosCliente />} />
           <Route path="/devoluciones" element={<SolicitudDevolucion />} />
           <Route path="/devoluciones-admin" element={<PanelDevoluciones />} />
+          <Route path="/ventas-totales" element={<VerVentas />} />
+          <Route path="/calificar-producto" element={<CalificarProductoCliente />} />
+          <Route path="/estadisticas-productos" element={<EstadisticasProductosAdmin />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
