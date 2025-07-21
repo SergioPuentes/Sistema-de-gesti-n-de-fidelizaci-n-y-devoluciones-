@@ -63,7 +63,7 @@ export default function CalificarProductosCliente() {
       {productosPendientes.map((producto) => (
         <div
           key={producto.id}
-          className="border rounded p-4 mb-4 flex items-center gap-4 bg-white shadow"
+          className="border rounded p-4 mb-4 flex items-center gap-4 bg-white shadow calificar-grid"
         >
           <img
             src={producto.imagen}

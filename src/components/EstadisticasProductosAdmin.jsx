@@ -26,12 +26,12 @@ export default function EstadisticasProductosAdmin() {
           return (
             <div
               key={producto.id}
-              className="border rounded shadow p-4 flex flex-col items-center bg-white"
+              className="border rounded shadow  flex flex-col items-center bg-white estadisticas-grid"
             >
               <img
                 src={producto.imagen}
                 alt={producto.nombre}
-                className="w-32 h-32 object-cover rounded mb-2"
+                className="img-producto w-32 h-32 object-cover rounded mb-2"
               />
               <h3 className="font-bold">{producto.nombre}</h3>
               <p className="text-sm text-gray-600">{producto.descripcion}</p>

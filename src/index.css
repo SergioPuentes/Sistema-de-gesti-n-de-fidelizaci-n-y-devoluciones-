@@ -7,7 +7,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(40, 40, 46, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -1126,4 +1126,40 @@ body {
 }
 .p-4{
   margin-top: 5rem;
+}
+
+.img-producto{
+  max-width: 10rem;
+}  
+
+input{
+  color: #111827;
+}
+body{
+  justify-content: center;
+}
+.contenedor-centrador{
+  margin: 0 auto;
+  width: 100%;
+}
+.border{
+  margin-right: 1rem;
+}
+.p-4{
+  padding: 2rem;
+  padding-right: 4rem;
+}
+.calificar-grid{
+  width: 30rem;
+  font-size: small;
+  gap: 3rem;
+}
+.calificar-grid img{
+  width: 7rem;
+}
+.flex-1{
+ min-width: 12rem;
+}
+.grid{
+  gap: 1rem;
 }

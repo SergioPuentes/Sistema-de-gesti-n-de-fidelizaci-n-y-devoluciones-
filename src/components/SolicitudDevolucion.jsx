@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function SolicitudDevolucion() {
-  const { registrarDevolucion, obtenerTodasLasVentas, obtenerDevoluciones, inventario } = useAuth();
+  const { 
+    registrarDevolucion, 
+    obtenerTodasLasVentas, 
+    obtenerDevoluciones, 
+    inventario, 
+    usuarioActual 
+  } = useAuth();
+
   const [factura, setFactura] = useState("");
   const [producto, setProducto] = useState("");
   const [cantidad, setCantidad] = useState(1);
@@ -34,17 +41,14 @@ export default function SolicitudDevolucion() {
     const venta = ventas.find(v => v.codigoFactura === factura);
     if (!venta) return setError("Factura no encontrada.");
 
-    // Validar fecha (no más de 30 días)
     const fechaVenta = new Date(venta.fecha);
     const ahora = new Date();
     const diffDias = (ahora - fechaVenta) / (1000 * 60 * 60 * 24);
     if (diffDias > 30) return setError("La devolución solo se acepta hasta 30 días después de la compra.");
 
-    // Validar que el producto está en la compra
     const productoCompra = venta.productos.find(p => p.idProducto === producto);
     if (!productoCompra) return setError("El producto no está en la factura.");
 
-    // ** Validar cantidad no mayor a la cantidad comprada menos la ya devuelta **
     const devoluciones = obtenerDevoluciones();
     const cantidadYaDevuelta = devoluciones
       .filter(d => d.factura === factura && d.producto === producto)
@@ -52,7 +56,7 @@ export default function SolicitudDevolucion() {
 
     const maxDevolver = productoCompra.cantidad - cantidadYaDevuelta;
     if (cantidad > maxDevolver) {
-      return setError(`No puedes devolver más de ${maxDevolver} unidades de este producto. Ya has devuelto ${cantidadYaDevuelta}.`);
+      return setError(`No puedes devolver más de ${maxDevolver} unidades de este producto.`);
     }
 
     return null;
@@ -71,7 +75,9 @@ export default function SolicitudDevolucion() {
       razones,
       estado: "pendiente",
       fecha: new Date().toLocaleString(),
+      clienteId: usuarioActual?.id,  // Añadir clienteId
     });
+
     setMensaje("Solicitud enviada.");
     setFactura("");
     setProducto("");
@@ -86,7 +92,6 @@ export default function SolicitudDevolucion() {
     });
   }
 
-  // Para mostrar opciones de productos de la factura ingresada
   const ventas = obtenerTodasLasVentas();
   const ventaSeleccionada = ventas.find(v => v.codigoFactura === factura);
   const productosFactura = ventaSeleccionada
@@ -96,101 +101,123 @@ export default function SolicitudDevolucion() {
       })
     : [];
 
+  const historialCliente = obtenerDevoluciones().filter(d => d.clienteId === usuarioActual?.id);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Solicitar Devolución</h2>
-      {mensaje && <p style={{ color: "green" }}>{mensaje}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h2>Solicitar Devolución</h2>
+        {mensaje && <p style={{ color: "green" }}>{mensaje}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <input
-        placeholder="Código de factura"
-        value={factura}
-        onChange={(e) => setFactura(e.target.value)}
-        required
-      />
-
-      {ventaSeleccionada && (
-        <>
-          <select value={producto} onChange={(e) => setProducto(e.target.value)} required>
-            <option value="">-- Seleccione producto --</option>
-            {productosFactura.map(p => (
-              <option key={p.id} value={p.id}>
-                {p.nombre} (Max {p.maxCantidad})
-              </option>
-            ))}
-          </select>
-
-          <input
-            type="number"
-            min="1"
-            max={
-              // Aquí el max se actualiza dinámicamente para no permitir exceder devoluciones
-              (() => {
-                const devoluciones = obtenerDevoluciones();
-                const cantidadYaDevuelta = devoluciones
-                  .filter(d => d.factura === factura && d.producto === producto)
-                  .reduce((acc, d) => acc + d.cantidad, 0);
-                const maxDevolver = productosFactura.find(p => p.id === producto)?.maxCantidad || 1;
-                return maxDevolver - cantidadYaDevuelta;
-              })()
-            }
-            value={cantidad}
-            onChange={(e) => setCantidad(Number(e.target.value))}
-            required
-          />
-        </>
-      )}
-
-      <input type="file" onChange={(e) => setFoto(e.target.files[0])} required />
-
-      <fieldset>
-        <legend>Razones para la devolución (al menos una):</legend>
-        <label>
-          <input
-            type="checkbox"
-            checked={razones.noEsperado}
-            onChange={(e) => setRazones({ ...razones, noEsperado: e.target.checked })}
-          />
-          No era lo que esperaba
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={razones.material}
-            onChange={(e) => setRazones({ ...razones, material: e.target.checked })}
-          />
-          No me gustó el material
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={razones.talla}
-            onChange={(e) => setRazones({ ...razones, talla: e.target.checked })}
-          />
-          Problemas con la talla
-        </label>
-        <label>
-          Otro:
-          <input
-            type="text"
-            value={razones.otro}
-            onChange={(e) => setRazones({ ...razones, otro: e.target.value })}
-            placeholder="Especifique"
-          />
-        </label>
-      </fieldset>
-
-      <label>
         <input
-          type="checkbox"
-          checked={razones.buenEstado}
-          onChange={(e) => setRazones({ ...razones, buenEstado: e.target.checked })}
+          placeholder="Código de factura"
+          value={factura}
+          onChange={(e) => setFactura(e.target.value)}
           required
         />
-        Producto en buen estado (obligatorio)
-      </label>
 
-      <button type="submit">Enviar Solicitud</button>
-    </form>
+        {ventaSeleccionada && (
+          <>
+            <select value={producto} onChange={(e) => setProducto(e.target.value)} required>
+              <option value="">-- Seleccione producto --</option>
+              {productosFactura.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.nombre} (Max {p.maxCantidad})
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              min="1"
+              max={
+                (() => {
+                  const devoluciones = obtenerDevoluciones();
+                  const cantidadYaDevuelta = devoluciones
+                    .filter(d => d.factura === factura && d.producto === producto)
+                    .reduce((acc, d) => acc + d.cantidad, 0);
+                  const maxDevolver = productosFactura.find(p => p.id === producto)?.maxCantidad || 1;
+                  return maxDevolver - cantidadYaDevuelta;
+                })()
+              }
+              value={cantidad}
+              onChange={(e) => setCantidad(Number(e.target.value))}
+              required
+            />
+          </>
+        )}
+
+        <input type="file" onChange={(e) => setFoto(e.target.files[0])} required />
+
+        <fieldset>
+          <legend>Razones para la devolución (al menos una):</legend>
+          <label>
+            <input
+              type="checkbox"
+              checked={razones.noEsperado}
+              onChange={(e) => setRazones({ ...razones, noEsperado: e.target.checked })}
+            />
+            No era lo que esperaba
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={razones.material}
+              onChange={(e) => setRazones({ ...razones, material: e.target.checked })}
+            />
+            No me gustó el material
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={razones.talla}
+              onChange={(e) => setRazones({ ...razones, talla: e.target.checked })}
+            />
+            Problemas con la talla
+          </label>
+          <label>
+            Otro:
+            <input
+              type="text"
+              value={razones.otro}
+              onChange={(e) => setRazones({ ...razones, otro: e.target.value })}
+              placeholder="Especifique"
+            />
+          </label>
+        </fieldset>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={razones.buenEstado}
+            onChange={(e) => setRazones({ ...razones, buenEstado: e.target.checked })}
+            required
+          />
+          Producto en buen estado (obligatorio)
+        </label>
+
+        <button type="submit">Enviar Solicitud</button>
+      </form>
+
+      {usuarioActual && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Historial de Solicitudes de Devolución</h3>
+          {historialCliente.length === 0 ? (
+            <p>No tienes solicitudes registradas.</p>
+          ) : (
+            historialCliente.map((dev, index) => (
+              <div key={index} style={{ border: "1px solid gray", padding: "10px", marginBottom: "10px" }}>
+                <p><strong>Factura:</strong> {dev.factura}</p>
+                <p><strong>Producto:</strong> {dev.producto}</p>
+                <p><strong>Cantidad:</strong> {dev.cantidad}</p>
+                <p><strong>Estado:</strong> {dev.estado}</p>
+                <img src={dev.foto} alt="Foto devolución" style={{ maxWidth: "100px" }} />
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
   );
 }
